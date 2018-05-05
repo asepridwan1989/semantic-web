@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Document</title>
+  <meta charset="utf-8">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      padding: 0px 100px;
+      box-sizing: border-box;
+      transition: .3s;
+    }
+    nav.dark {
+      background: rgba(24, 21, 21, 0.7);
+      height: 100px;
+      padding: 10px 100px;
+    }
+    .navbar .logo {
+      margin: 10px auto;
+      padding: 12px 20px;
+      height: 25px;
+      float: left;
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      border: 3px solid #fff;
+      transition: .3s;
+    }
+    nav ul {
+      list-style: none;
+      float: right;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    nav ul li {
+      list-style: none;
+    }
+    nav ul li a {
+      line-height: 80px;
+      color: #fff;
+      padding: 12px 30px;
+      text-decoration: none;
+      font-size: 20px;
+      transition: .3s;
+    }
+    nav.dark ul li a {
+      color: #fff;
+    }
+    .header {
+      height: 100%;
+      width: 100%;
+      margin: auto;
+      background: url(https://media.wired.com/photos/5a9848dc052a533488ac2bc0/master/pass/Satellite-FINAL.jpg) no-repeat 50% 50% ;
+      display: table;
+      top: 0;
+      background-size: cover;
+      background-position: center;
+    }
+    .content {
+      width: 70%;
+      margin: 0px auto;
+      padding: 100px 0;
+    }
+    .header .intro {
+      display: table-cell;
+      width: 100%;
+      max-width: none;
+    }
+    .intro {
+      max-width: 500px;
+      margin: 0 auto;
+
+      text-align: center;
+    }
+    .intro h1 {
+      font-weight: bolder;
+      color: #f9f3f4;
+      text-shadow: 0px 0px 200px #000;
+      font-size: 600%;
+      letter-spacing: -2px;
+    }
+    .btn {
+      border-radius: 9px;
+      color: #6b6554;
+      background: #fff;
+      font-size: 135%;
+      font-weight: 500;
+      padding: 10px 20px;
+      text-decoration: none;
+    }
+    .btn:hover {
+      color: #494437;
+    }
+    .content h2 {
+      display: block;
+      color: #474338;
+      font-size: 300%;
+      letter-spacing: -2px;
+    }
+    p {
+      color: #161616;
+      font-size: 130%;
+      line-height: 150%;
+      text-align: justify;
+    }
+
+    .footer {
+      width: 100%;
+      background-color: #2e2626;
+      text-align: center;
+      padding: 40px 0;
+    }
+    .footer p {
+      color: rgb(235, 235, 235);
+      text-decoration: none;
+      font-size: 70%;
+      text-align: center;
+    }
+    .frame {
+      height:800px;
+      width:98%;
+    }
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#content">Introduction</a></li>
+        <li><a href="#calculator">Calculator</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="header">
+    <div class="intro">
+      <h1>Azimuth Elevation Calculator</h1>
+      <a class="btn" id="get-started" href="#">Get Started</a>
+    </div>
+  </div>
+  <div class="content" id="content">
+    <h2>About Azimuth and elevation refer to the satellite TV dish pointing angles</h2>
+    <iframe  class="frame" src="http://www.satsig.net/azelhelp.htm" ></iframe>
+    <div id="calculator">
+      <h2>Try to calculate azimuth and elevation for Indonesia satellite Ku Band Beam</h2>
+      <form>
+        Earth station longitude: <input type="text" name="nama" id="longitude"/>
+        <br/><br/>
+        Earth station latitude: <input type="text" name="nama" id="latitude"/>
+        <br/><br/>
+        Satellite longitude :
+        <select id="operator">
+          <option value="+">tambah</option>
+          <option value="-">kurang</option>
+          <option value="*">kali</option>
+          <option value="/" selected>bagi</option>
+        </select>
+        <br/><br/>
+        <p id="result">Hasil = </p>
+        <br/><br/>
+        <input type="button" onclick="aljabar()" value="kalkulasi" />
+        <input type="reset" value="Reset">
+      </form>
+    </div>
+
+  </div>
+
+  <div class="footer">
+  </div>
+
+  <script>
+  function aljabar()
+  {
+  a = document.getElementById('longitude').value;
+  b = document.getElementById('latitude').value;
+  if(a === '' || b === ''){
+      alert('silakan isi nilai a dan b terlebih dulu');
+    }
+  var x = document.getElementById("operator").value;
+  function tambah(a,b){
+    return Number(a) + Number(b)
+    }
+  function kali(a,b){
+    return Number(a) * Number(b)
+    }
+  function bagi(a,b){
+    return Number(a) / Number(b)
+    }
+  function kurang(a,b){
+    return Number(a) - Number(b)
+    }
+  switch(x){
+    case '+':
+      c = tambah(a,b);
+    break;
+    case '*':
+      c = kali(a,b);
+    break;
+    case '/':
+      c = bagi(a,b);
+    break;
+    case '-':
+      c = kurang(a,b);
+    break;
+    }
+  if(isNaN(c)){
+    alert("hanya masukan tipe data number saja");
+    }else{
+      document.getElementById("result").innerHTML="Hasil = " + c;
+    }
+  }
+    $(window).on('scroll', function() {
+      if ($(window).scrollTop()) {
+        $('nav').addClass('dark')
+      } else {
+        $('nav').removeClass('dark')
+      }
+    })
+    $('#get-started').on('click', function() {
+      console.log('clicked')
+      $('html, body').animate({
+        scrollTop: $(".content").offset().top
+      }, 700);
+    })
+  </script>
+</body>
+</html>
