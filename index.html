@@ -62,11 +62,13 @@
     nav.dark ul li a {
       color: #fff;
     }
-    .header {
+    .headerd {
       height: 100%;
       width: 100%;
       margin: auto;
-      background: url(https://media.wired.com/photos/5a9848dc052a533488ac2bc0/master/pass/Satellite-FINAL.jpg) no-repeat 50% 50% ;
+      padding-top: 250px;
+      vertical-align: bottom;
+      background: url(https://www.freedomsat.co.uk/uploads/cache/image_big_jpg/uploads/media/57ea692e2523a/hylas2.jpg) no-repeat 50% 50% ;
       display: table;
       top: 0;
       background-size: cover;
@@ -139,6 +141,7 @@
 
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 </head>
 <body>
   <div class="navbar">
@@ -147,13 +150,12 @@
         <li><a href="#">Home</a></li>
         <li><a href="#content">Introduction</a></li>
         <li><a href="#calculator">Calculator</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="#footer">Contact</a></li>
       </ul>
     </nav>
   </div>
 
-  <div class="header">
+  <div class="headerd">
     <div class="intro">
       <h1>Azimuth Elevation Calculator</h1>
       <a class="btn" id="get-started" href="#">Get Started</a>
@@ -165,71 +167,69 @@
     <div id="calculator">
       <h2>Try to calculate azimuth and elevation for Indonesia satellite Ku Band Beam</h2>
       <form>
-        Earth station longitude: <input type="text" name="nama" id="longitude"/>
-        <br/><br/>
-        Earth station latitude: <input type="text" name="nama" id="latitude"/>
-        <br/><br/>
+        Earth station latitude: <input class="form-control" type="text" name="nama" id="latitude" value="0"/>
+        <br/>
+        Earth station longitude: <input class="form-control" type="text" name="nama" id="longitude" value="0"/>
+        <br/>
         Satellite longitude :
-        <select id="operator">
-          <option value="+">tambah</option>
-          <option value="-">kurang</option>
-          <option value="*">kali</option>
-          <option value="/" selected>bagi</option>
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="operator">
+          <option value="144">Super Bird C2</option>
+          <option value="128">JCSAT 3A</option>
+          <option value="124">JCSAT 4B</option>
+          <option value="119.5">Thaicom 4</option>
+          <option value="113">Palapa D</option>
+          <option value="95">NSS 6</option>
+          <option value="91.5">Measat 3</option>
         </select>
+        <br/>
+        elevation = <span id="elevation">0</span> degree<br/>
+        azimuth = <span id="azimuth">0</span> degree
         <br/><br/>
-        <p id="result">Hasil = </p>
-        <br/><br/>
-        <input type="button" onclick="aljabar()" value="kalkulasi" />
-        <input type="reset" value="Reset">
+        <input class="btn btn-primary" type="button" onclick="calc()" value="calculate"/>
+        <input class="btn btn-primary" type="button" onclick="clean()" value="reset"/>
       </form>
     </div>
 
   </div>
 
-  <div class="footer">
+  <div class="footer" id="footer">
+    <p>Asep Ridwan 2018</p>
+    <p>email : aseprmail@gmail.com || phone : +6281377808781</p>
   </div>
 
   <script>
-  function aljabar()
-  {
-  a = document.getElementById('longitude').value;
-  b = document.getElementById('latitude').value;
-  if(a === '' || b === ''){
-      alert('silakan isi nilai a dan b terlebih dulu');
+    function calc(){
+      n = document.getElementById('longitude').value
+      l = Math.abs(document.getElementById('latitude').value)
+      if(n === '' || l === ''){
+          alert('fill longitude and latitude value first')
+        }else {
+          let s = Number(document.getElementById("operator").value)
+          let azimuth
+          let elevation
+          let g = s-n
+          const grad = (g / 57.29578)
+          const lrad = (l / 57.29578)
+          const pi = 3.14159
+          const a = Math.cos(grad)
+          const b = Math.cos(lrad)
+          elevation = ((Math.atan((a*b - 0.1512)/(Math.sqrt(1-(a*a)*(b*b))))))*57.29578
+          azimuth = (pi - (-Math.atan(Math.tan(grad)/Math.sin(lrad))))*57.29578
+
+          if(isNaN(elevation)||isNaN(azimuth)){
+            alert("just fill latitude and longitude value with number")
+            }else{
+              document.getElementById("elevation").innerHTML= elevation.toFixed(2)
+              document.getElementById("azimuth").innerHTML= azimuth.toFixed(2)
+            }
+        }
     }
-  var x = document.getElementById("operator").value;
-  function tambah(a,b){
-    return Number(a) + Number(b)
+    function clean(){
+      document.getElementById("elevation").innerHTML= 0
+      document.getElementById("azimuth").innerHTML= 0
+      document.getElementById('longitude').value = 0
+      document.getElementById('latitude').value = 0
     }
-  function kali(a,b){
-    return Number(a) * Number(b)
-    }
-  function bagi(a,b){
-    return Number(a) / Number(b)
-    }
-  function kurang(a,b){
-    return Number(a) - Number(b)
-    }
-  switch(x){
-    case '+':
-      c = tambah(a,b);
-    break;
-    case '*':
-      c = kali(a,b);
-    break;
-    case '/':
-      c = bagi(a,b);
-    break;
-    case '-':
-      c = kurang(a,b);
-    break;
-    }
-  if(isNaN(c)){
-    alert("hanya masukan tipe data number saja");
-    }else{
-      document.getElementById("result").innerHTML="Hasil = " + c;
-    }
-  }
     $(window).on('scroll', function() {
       if ($(window).scrollTop()) {
         $('nav').addClass('dark')
